@@ -6,6 +6,7 @@ use EscolaLms\Cart\Models\Order;
 use EscolaLms\Cart\Models\OrderItem;
 use EscolaLms\Core\Models\User;
 use EscolaLms\Core\Tests\CreatesUsers;
+use EscolaLms\FakturowniaIntegration\Dtos\FakturowniaDto;
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 use EscolaLms\FakturowniaIntegration\Tests\Models\Course;
 use EscolaLms\FakturowniaIntegration\Tests\TestCase;
@@ -42,6 +43,8 @@ class FakturowniaIntegrationServiceTest extends TestCase
 
     public function testSaveInvoices(): void
     {
-        $this->assertTrue($this->service->import($this->order));
+        $invoiceDto = new FakturowniaDto($this->order);
+
+        $this->assertEquals('SUCCESS', $this->fakturownia->createInvoice($invoiceDto->prepareData())->getStatus());
     }
 }
