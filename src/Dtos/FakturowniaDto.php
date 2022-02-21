@@ -64,9 +64,9 @@ class FakturowniaDto
         $this->buyerPostCode = $buyerPostCode;
     }
 
-    public function getBuyerPostCode(): ?string
+    public function getBuyerPostCode(): string
     {
-        return $this->buyerPostCode;
+        return $this->buyerPostCode ?? '';
     }
 
     public function setBuyerCity(?string $buyerCity): void
@@ -74,9 +74,9 @@ class FakturowniaDto
         $this->buyerCity = $buyerCity;
     }
 
-    public function getBuyerCity(): ?string
+    public function getBuyerCity(): string
     {
-        return $this->buyerCity;
+        return $this->buyerCity ?? '';
     }
 
     public function setBuyerStreet(?string $buyerStreet): void
@@ -84,14 +84,14 @@ class FakturowniaDto
         $this->buyerStreet = $buyerStreet;
     }
 
-    public function getBuyerStreet(): ?string
+    public function getBuyerStreet(): string
     {
-        return $this->buyerStreet;
+        return $this->buyerStreet ?? '';
     }
 
-    public function getSellerBankAccount(): ?string
+    public function getSellerBankAccount(): string
     {
-        return $this->sellerBankAccount;
+        return $this->sellerBankAccount ?? '';
     }
 
     public function setSellerBankAccount(?string $sellerBankAccount): void
@@ -99,9 +99,9 @@ class FakturowniaDto
         $this->sellerBankAccount = $sellerBankAccount;
     }
 
-    public function getSellerBank(): ?string
+    public function getSellerBank(): string
     {
-        return $this->sellerBank;
+        return $this->sellerBank ?? '';
     }
 
     public function setSellerBank(?string $sellerBank): void
@@ -109,9 +109,9 @@ class FakturowniaDto
         $this->sellerBank = $sellerBank;
     }
 
-    public function getSellerPostCode(): ?string
+    public function getSellerPostCode(): string
     {
-        return $this->sellerPostCode;
+        return $this->sellerPostCode ?? '';
     }
 
     public function setSellerPostCode(?string $sellerPostCode): void
@@ -119,9 +119,9 @@ class FakturowniaDto
         $this->sellerPostCode = $sellerPostCode;
     }
 
-    public function getSellerCity(): ?string
+    public function getSellerCity(): string
     {
-        return $this->sellerCity;
+        return $this->sellerCity ?? '';
     }
 
     public function setSellerCity(?string $sellerCity): void
@@ -129,9 +129,9 @@ class FakturowniaDto
         $this->sellerCity = $sellerCity;
     }
 
-    public function getSellerStreet(): ?string
+    public function getSellerStreet(): string
     {
-        return $this->sellerStreet;
+        return $this->sellerStreet ?? '';
     }
 
     public function setSellerStreet(?string $sellerStreet): void
@@ -139,9 +139,9 @@ class FakturowniaDto
         $this->sellerStreet = $sellerStreet;
     }
 
-    public function getSellerEmail(): ?string
+    public function getSellerEmail(): string
     {
-        return $this->sellerEmail;
+        return $this->sellerEmail ?? '';
     }
 
     public function setSellerEmail(?string $sellerEmail): void
@@ -149,9 +149,9 @@ class FakturowniaDto
         $this->sellerEmail = $sellerEmail;
     }
 
-    protected function getKind(): ?string
+    protected function getKind(): string
     {
-        return $this->kind;
+        return $this->kind ?? '';
     }
 
     protected function setKind(?string $kind): void
@@ -159,9 +159,9 @@ class FakturowniaDto
         $this->kind = $kind;
     }
 
-    protected function getNumber(): ?string
+    protected function getNumber(): string
     {
-        return $this->number;
+        return $this->number ?? '';
     }
 
     protected function setNumber(?string $number): void
@@ -169,9 +169,9 @@ class FakturowniaDto
         $this->number = $number;
     }
 
-    protected function getSellDate(): ?string
+    protected function getSellDate(): string
     {
-        return $this->sellDate;
+        return $this->sellDate ?? '';
     }
 
     protected function setSellDate(?string $sellDate): void
@@ -179,9 +179,9 @@ class FakturowniaDto
         $this->sellDate = $sellDate;
     }
 
-    protected function getIssueDate(): ?string
+    protected function getIssueDate(): string
     {
-        return $this->issueDate;
+        return $this->issueDate ?? '';
     }
 
     protected function setIssueDate(?string $issueDate): void
@@ -189,9 +189,9 @@ class FakturowniaDto
         $this->issueDate = $issueDate;
     }
 
-    protected function getPaymentTo(): ?string
+    protected function getPaymentTo(): string
     {
-        return $this->paymentTo;
+        return $this->paymentTo ?? '';
     }
 
     protected function setPaymentTo(?string $paymentTo): void
@@ -199,9 +199,9 @@ class FakturowniaDto
         $this->paymentTo = $paymentTo;
     }
 
-    protected function getSellerName(): ?string
+    protected function getSellerName(): string
     {
-        return $this->sellerName;
+        return $this->sellerName ?? '';
     }
 
     protected function setSellerName(?string $sellerName): void
@@ -209,9 +209,9 @@ class FakturowniaDto
         $this->sellerName = $sellerName;
     }
 
-    protected function getSellerTaxNo(): ?string
+    protected function getSellerTaxNo(): string
     {
-        return $this->sellerTaxNo;
+        return $this->sellerTaxNo ?? '';
     }
 
     protected function setSellerTaxNo(?string $sellerTaxNo): void
@@ -219,9 +219,9 @@ class FakturowniaDto
         $this->sellerTaxNo = $sellerTaxNo;
     }
 
-    protected function getBuyerName(): ?string
+    protected function getBuyerName(): string
     {
-        return $this->buyerName;
+        return $this->buyerName ?? '';
     }
 
     protected function setBuyerName(?string $buyerName): void
@@ -229,9 +229,9 @@ class FakturowniaDto
         $this->buyerName = $buyerName;
     }
 
-    protected function getBuyerEmail(): ?string
+    protected function getBuyerEmail(): string
     {
-        return $this->buyerEmail;
+        return $this->buyerEmail ?? '';
     }
 
     protected function setBuyerEmail(?string $buyerEmail): void
@@ -239,7 +239,7 @@ class FakturowniaDto
         $this->buyerEmail = $buyerEmail;
     }
 
-    protected function getBuyerTaxNo(): ?string
+    protected function getBuyerTaxNo(): string
     {
         return $this->buyerTaxNo ?? '';
     }

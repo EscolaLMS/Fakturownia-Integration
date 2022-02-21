@@ -14,7 +14,7 @@ class Position
     public function __construct(OrderItem $item)
     {
         $this->name = $item->name ?? $item->title ?? $item->buyable->name ?? $item->buyable->title;
-        $this->tax = $item->vat ?? '23%';
+        $this->tax = $item->vat ?? 0;
         $this->quantity = $item->quantity;
         $this->totalPriceGross = ($item->price * $item->quantity) / 100;
     }

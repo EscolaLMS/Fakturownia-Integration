@@ -88,7 +88,7 @@ class Course extends \EscolaLms\Courses\Models\Course implements Buyable
 
     public function getBuyableDescription()
     {
-        return 'abc test';
+        return '';
     }
 
     public function getBuyableIdentifier()
