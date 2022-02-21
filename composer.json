@@ -1,0 +1,56 @@
+{
+  "name": "escolalms/fakturownia-integration",
+  "description": "Escola Headless LMS Fakturownia Integration",
+  "type": "package",
+  "require": {
+    "php": "^7.4|^8.0",
+    "escolalms/core": "^1.2.2",
+    "escolalms/cart": "^0.1.19",
+    "laravel/framework": "^8.0",
+    "abb/fakturownia": "^1.6"
+  },
+  "require-dev": {
+    "escolalms/auth": "^0.1.54",
+    "phpunit/phpunit": "^9.0",
+    "orchestra/testbench": ">=5.0"
+  },
+  "suggest": {
+    "escolalms/auth": "^0.1.54",
+    "escolalms/settings": "^0.1.2"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Krzysztof Dziedziech",
+      "email": "krzysztof.dziedziech@escolasoft.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "EscolaLms\\FakturowniaIntegration\\": "src",
+      "EscolaLms\\FakturowniaIntegration\\Tests\\": "tests"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "EscolaLmsFakturowniaIntegrationServiceProvider"
+      ]
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "@php ./vendor/bin/testbench package:discover --ansi"
+    ]
+  },
+  "config": {
+    "optimize-autoloader": false,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
