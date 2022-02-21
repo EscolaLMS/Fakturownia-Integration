@@ -9,6 +9,9 @@ on:
 jobs:
   php8-laravel-latest-phpunit-mysql:
     runs-on: ubuntu-latest
+    env:
+      FAKTUROWNIA_HOST: ${{ secrets.FAKTUROWNIA_HOST }}
+      FAKTUROWNIA_TOKEN: ${{ secrets.FAKTUROWNIA_TOKEN }}
     container:
       image: escolalms/php:8-work
 
@@ -45,6 +48,9 @@ jobs:
 
   php8-laravel-latest-phpunit-postgres:
     runs-on: ubuntu-latest
+    env:
+      FAKTUROWNIA_HOST: ${{ secrets.FAKTUROWNIA_HOST }}
+      FAKTUROWNIA_TOKEN: ${{ secrets.FAKTUROWNIA_TOKEN }}
     container:
       image: escolalms/php:8-work
 
