@@ -254,10 +254,10 @@ class FakturowniaDto
         return $this->positions;
     }
 
-    protected function setPositions(array $items): void
+    protected function setPositions(Collection $items): void
     {
+        $this->positions = collect();
         foreach ($items as $item) {
-            $this->positions = collect();
             $position = new Position($item);
             $this->totalPriceGross += $item->totalPriceGross;
             $this->positions->push($position->prepareData());

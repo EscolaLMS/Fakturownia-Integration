@@ -6,6 +6,7 @@ use EscolaLms\Cart\Models\Order;
 use EscolaLms\Cart\Models\OrderItem;
 use EscolaLms\Core\Models\User;
 use EscolaLms\Core\Tests\CreatesUsers;
+use EscolaLms\FakturowniaIntegration\Dtos\FakturowniaDto;
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 use EscolaLms\FakturowniaIntegration\Tests\Models\Course;
 use EscolaLms\FakturowniaIntegration\Tests\TestCase;
@@ -24,7 +25,7 @@ class FakturowniaIntegrationServiceTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        /*$this->service = app(FakturowniaIntegrationServiceContract::class);
+        $this->service = app(FakturowniaIntegrationServiceContract::class);
         $this->user =  $this->makeStudent();
         $courses = [
             ...Course::factory()->count(5)->create(),
@@ -37,11 +38,13 @@ class FakturowniaIntegrationServiceTest extends TestCase
             $orderItem->quantity = 1;
             $orderItem->order_id = $this->order->getKey();
             $orderItem->save();
-        }*/
+        }
     }
 
     public function testSaveInvoices(): void
     {
-        //$response = $this->service->import($this->order);
+        $invoiceDto = new FakturowniaDto($this->order);
+
+        $this->assertEquals('SUCCESS', $this->fakturownia->createInvoice($invoiceDto->prepareData())->getStatus());
     }
 }

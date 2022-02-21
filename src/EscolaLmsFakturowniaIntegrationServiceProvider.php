@@ -31,8 +31,5 @@ class EscolaLmsFakturowniaIntegrationServiceProvider extends ServiceProvider
 
     protected function bootForConsole(): void
     {
-        $this->publishes([
-            __DIR__ . '/config.php' => config_path('fakturownia.php'),
-        ], 'escolalms_fakturownia.config');
     }
 }
