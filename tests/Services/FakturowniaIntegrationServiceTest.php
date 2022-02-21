@@ -24,7 +24,7 @@ class FakturowniaIntegrationServiceTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        /*$this->service = app(FakturowniaIntegrationServiceContract::class);
+        $this->service = app(FakturowniaIntegrationServiceContract::class);
         $this->user =  $this->makeStudent();
         $courses = [
             ...Course::factory()->count(5)->create(),
@@ -37,11 +37,11 @@ class FakturowniaIntegrationServiceTest extends TestCase
             $orderItem->quantity = 1;
             $orderItem->order_id = $this->order->getKey();
             $orderItem->save();
-        }*/
+        }
     }
 
     public function testSaveInvoices(): void
     {
-        //$response = $this->service->import($this->order);
+        $this->assertTrue($this->service->import($this->order));
     }
 }

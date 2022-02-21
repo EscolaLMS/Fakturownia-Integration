@@ -9,6 +9,9 @@ on:
 jobs:
   phpunit-code-coverage:
     runs-on: ubuntu-latest
+    env:
+      FAKTUROWNIA_HOST: ${{ secrets.FAKTUROWNIA_HOST }}
+      FAKTUROWNIA_TOKEN: ${{ secrets.FAKTUROWNIA_TOKEN }}
     container:
       image: escolalms/php:8-work
 

@@ -4,6 +4,7 @@ namespace EscolaLms\FakturowniaIntegration\Tests;
 
 use EscolaLms\Cart\CartServiceProvider;
 use EscolaLms\Core\Models\User;
+use EscolaLms\Courses\EscolaLmsCourseServiceProvider;
 use EscolaLms\FakturowniaIntegration\EscolaLmsFakturowniaIntegrationServiceProvider;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\Passport\PassportServiceProvider;
@@ -21,6 +22,7 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
             PermissionServiceProvider::class,
             EscolaLmsFakturowniaIntegrationServiceProvider::class,
             CartServiceProvider::class,
+            EscolaLmsCourseServiceProvider::class,
         ];
     }
 
