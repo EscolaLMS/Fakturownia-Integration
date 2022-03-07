@@ -6,7 +6,7 @@
     "php": "^7.4|^8.0",
     "escolalms/core": "^1.2.2",
     "escolalms/cart": "^0.1.19",
-    "laravel/framework": "^8.0",
+    "laravel/framework": "^8|^9",
     "abb/fakturownia": "^1.6"
   },
   "require-dev": {
