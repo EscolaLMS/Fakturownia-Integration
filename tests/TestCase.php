@@ -4,9 +4,9 @@ namespace EscolaLms\FakturowniaIntegration\Tests;
 
 use Abb\Fakturownia\Fakturownia;
 use Abb\Fakturownia\FakturowniaResponse;
-use EscolaLms\Cart\CartServiceProvider;
+use EscolaLms\Cart\EscolaLmsCartServiceProvider;
+use EscolaLms\Cart\Tests\Mocks\ExampleProductableMigration;
 use EscolaLms\Core\Models\User;
-use EscolaLms\Courses\EscolaLmsCourseServiceProvider;
 use EscolaLms\FakturowniaIntegration\EscolaLmsFakturowniaIntegrationServiceProvider;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Laravel\Passport\PassportServiceProvider;
@@ -75,8 +75,7 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
             PassportServiceProvider::class,
             PermissionServiceProvider::class,
             EscolaLmsFakturowniaIntegrationServiceProvider::class,
-            CartServiceProvider::class,
-            EscolaLmsCourseServiceProvider::class,
+            EscolaLmsCartServiceProvider::class,
         ];
     }
 
@@ -84,5 +83,8 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
     {
         $app['config']->set('auth.providers.users.model', User::class);
         $app['config']->set('passport.client_uuids', true);
+        $app['config']->set('app.debug', env('APP_DEBUG', true));
+
+        ExampleProductableMigration::run();
     }
 }
