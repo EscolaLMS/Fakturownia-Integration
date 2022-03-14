@@ -24,14 +24,12 @@ class InvoicesApiTest extends TestCase
     private CartOrder $order;
     private Order $orderF;
     private User $user;
-    private User $admin;
     private User $user2;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->service = app(FakturowniaIntegrationServiceContract::class);
-        $this->admin =  $this->makeAdmin();
         $this->user =  $this->makeStudent();
         $this->user2 =  $this->makeStudent();
         $this->order = CartOrder::factory()->for($this->user)->create();
@@ -72,13 +70,6 @@ class InvoicesApiTest extends TestCase
         $response = $this->actingAs($this->user, 'api')->getJson('api/invoices/999999');
 
         $response->assertStatus(404);
-    }
-
-    public function testAdminCanReadInvoicesByOrderId(): void
-    {
-        $response = $this->actingAs($this->admin, 'api')->getJson('api/invoices/'.$this->order->getKey());
-
-        $response->assertOk();
     }
 
     public function testOtherUsersCannotReadInvoicesOtherUser(): void
