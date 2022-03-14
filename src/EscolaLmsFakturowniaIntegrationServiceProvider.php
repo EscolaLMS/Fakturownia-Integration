@@ -17,6 +17,8 @@ class EscolaLmsFakturowniaIntegrationServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->loadRoutesFrom(__DIR__ . '/routes.php');
+
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
         }
@@ -31,5 +33,6 @@ class EscolaLmsFakturowniaIntegrationServiceProvider extends ServiceProvider
 
     protected function bootForConsole(): void
     {
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 }

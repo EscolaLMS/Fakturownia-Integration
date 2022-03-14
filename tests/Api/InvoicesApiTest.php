@@ -1,6 +1,6 @@
 <?php
 
-namespace EscolaLms\FakturowniaIntegration\Tests\Services;
+namespace EscolaLms\FakturowniaIntegration\Tests\Api;
 
 use EscolaLms\Cart\Models\Order as CartOrder;
 use EscolaLms\Cart\Models\OrderItem;
@@ -9,12 +9,12 @@ use EscolaLms\Cart\Models\ProductProductable;
 use EscolaLms\Cart\Tests\Mocks\ExampleProductable;
 use EscolaLms\Core\Models\User;
 use EscolaLms\Core\Tests\CreatesUsers;
-use EscolaLms\FakturowniaIntegration\Dtos\FakturowniaDto;
+use EscolaLms\FakturowniaIntegration\Models\Order;
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 use EscolaLms\FakturowniaIntegration\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class FakturowniaIntegrationServiceTest extends TestCase
+class InvoicesApiTest extends TestCase
 {
     use DatabaseTransactions;
     use CreatesUsers;
@@ -22,13 +22,18 @@ class FakturowniaIntegrationServiceTest extends TestCase
     protected FakturowniaIntegrationServiceContract $service;
 
     private CartOrder $order;
+    private Order $orderF;
     private User $user;
+    private User $admin;
+    private User $user2;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->service = app(FakturowniaIntegrationServiceContract::class);
+        $this->admin =  $this->makeAdmin();
         $this->user =  $this->makeStudent();
+        $this->user2 =  $this->makeStudent();
         $this->order = CartOrder::factory()->for($this->user)->create();
 
         $products = [
@@ -49,12 +54,44 @@ class FakturowniaIntegrationServiceTest extends TestCase
             $orderItem->order_id = $this->order->getKey();
             $orderItem->save();
         }
+
+        $this->orderF = Order::query()->findOrFail($this->order->getKey());
+        $this->orderF->invoice_id = 146487636; //Id from fakturownia
+        $this->orderF->save();
     }
 
-    public function testSaveInvoices(): void
+    public function testCanReadInvoices(): void
     {
-        $invoiceDto = new FakturowniaDto($this->order);
+        $response = $this->actingAs($this->user, 'api')->getJson('api/invoices/'.$this->order->getKey());
 
-        $this->assertEquals('SUCCESS', $this->fakturownia->createInvoice($invoiceDto->prepareData())->getStatus());
+        $response->assertOk();
+    }
+
+    public function testCannotFindMissingOrder(): void
+    {
+        $response = $this->actingAs($this->user, 'api')->getJson('api/invoices/999999');
+
+        $response->assertStatus(404);
+    }
+
+    public function testAdminCanReadInvoicesByOrderId(): void
+    {
+        $response = $this->actingAs($this->admin, 'api')->getJson('api/invoices/'.$this->order->getKey());
+
+        $response->assertOk();
+    }
+
+    public function testOtherUsersCannotReadInvoicesOtherUser(): void
+    {
+        $response = $this->actingAs($this->user2, 'api')->getJson('api/invoices/'.$this->order->getKey());
+
+        $response->assertForbidden();
+    }
+
+    public function testGuestCannotReadInvoices(): void
+    {
+        $response = $this->getJson('api/invoices/'.$this->order->getKey());
+
+        $response->assertForbidden();
     }
 }
