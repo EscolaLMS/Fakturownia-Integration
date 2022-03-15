@@ -2,6 +2,8 @@
 
 namespace EscolaLms\FakturowniaIntegration;
 
+use EscolaLms\FakturowniaIntegration\Repositories\Contracts\FakturowniaOrderRepositoryContract;
+use EscolaLms\FakturowniaIntegration\Repositories\FakturowniaOrderRepository;
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 use EscolaLms\FakturowniaIntegration\Services\FakturowniaIntegrationService;
 use Illuminate\Support\ServiceProvider;
@@ -13,6 +15,7 @@ class EscolaLmsFakturowniaIntegrationServiceProvider extends ServiceProvider
 {
     public $bindings = [
         FakturowniaIntegrationServiceContract::class => FakturowniaIntegrationService::class,
+        FakturowniaOrderRepositoryContract::class => FakturowniaOrderRepository::class,
     ];
 
     public function boot()

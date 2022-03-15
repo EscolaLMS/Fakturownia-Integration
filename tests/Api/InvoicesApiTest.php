@@ -2,14 +2,14 @@
 
 namespace EscolaLms\FakturowniaIntegration\Tests\Api;
 
-use EscolaLms\Cart\Models\Order as CartOrder;
+use EscolaLms\Cart\Models\Order;
 use EscolaLms\Cart\Models\OrderItem;
 use EscolaLms\Cart\Models\Product;
 use EscolaLms\Cart\Models\ProductProductable;
 use EscolaLms\Cart\Tests\Mocks\ExampleProductable;
 use EscolaLms\Core\Models\User;
 use EscolaLms\Core\Tests\CreatesUsers;
-use EscolaLms\FakturowniaIntegration\Models\Order;
+use EscolaLms\FakturowniaIntegration\Models\FakturowniaOrder;
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 use EscolaLms\FakturowniaIntegration\Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -21,8 +21,7 @@ class InvoicesApiTest extends TestCase
 
     protected FakturowniaIntegrationServiceContract $service;
 
-    private CartOrder $order;
-    private Order $orderF;
+    private Order $order;
     private User $user;
     private User $user2;
 
@@ -32,7 +31,7 @@ class InvoicesApiTest extends TestCase
         $this->service = app(FakturowniaIntegrationServiceContract::class);
         $this->user =  $this->makeStudent();
         $this->user2 =  $this->makeStudent();
-        $this->order = CartOrder::factory()->for($this->user)->create();
+        $this->order = Order::factory()->for($this->user)->create();
 
         $products = [
             ...Product::factory()->count(5)->create(),
@@ -53,9 +52,10 @@ class InvoicesApiTest extends TestCase
             $orderItem->save();
         }
 
-        $this->orderF = Order::query()->findOrFail($this->order->getKey());
-        $this->orderF->invoice_id = 146487636; //Id from fakturownia
-        $this->orderF->save();
+        FakturowniaOrder::factory()->create([
+            'order_id' => $this->order->getKey(),
+            'fakturownia_id' => 146487636,
+        ]);
     }
 
     public function testCanReadInvoices(): void

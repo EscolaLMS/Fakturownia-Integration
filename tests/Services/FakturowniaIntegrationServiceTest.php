@@ -2,7 +2,7 @@
 
 namespace EscolaLms\FakturowniaIntegration\Tests\Services;
 
-use EscolaLms\Cart\Models\Order as CartOrder;
+use EscolaLms\Cart\Models\Order;
 use EscolaLms\Cart\Models\OrderItem;
 use EscolaLms\Cart\Models\Product;
 use EscolaLms\Cart\Models\ProductProductable;
@@ -21,7 +21,7 @@ class FakturowniaIntegrationServiceTest extends TestCase
 
     protected FakturowniaIntegrationServiceContract $service;
 
-    private CartOrder $order;
+    private Order $order;
     private User $user;
 
     public function setUp(): void
@@ -29,7 +29,7 @@ class FakturowniaIntegrationServiceTest extends TestCase
         parent::setUp();
         $this->service = app(FakturowniaIntegrationServiceContract::class);
         $this->user =  $this->makeStudent();
-        $this->order = CartOrder::factory()->for($this->user)->create();
+        $this->order = Order::factory()->for($this->user)->create();
 
         $products = [
             ...Product::factory()->count(5)->create(),
