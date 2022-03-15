@@ -13,6 +13,8 @@ use EscolaLms\FakturowniaIntegration\Utils\Fakturownia;
 
 class FakturowniaIntegrationService implements FakturowniaIntegrationServiceContract
 {
+    private CONST SUCCESS = 'SUCCESS';
+
     private FakturowniaOrderRepositoryContract $fakturowniaOrderRepository;
 
     public function __construct(FakturowniaOrderRepositoryContract $fakturowniaOrderRepository)
@@ -30,7 +32,7 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
         $invoiceDto = new FakturowniaDto($order);
         $response = $fakturownia->createInvoice($invoiceDto->prepareData());
 
-        if ($response->getStatus() !== 'SUCCESS') {
+        if ($response->getStatus() !== self::SUCCESS) {
             throw new InvoiceNotAddedException();
         }
         $this->fakturowniaOrderRepository->setFakturowniaIdToOrder($order->getKey(), $response->getData()['id']);
@@ -46,7 +48,7 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
             $this->fakturowniaOrderRepository->getFirstFakturowniaIdByOrderId($order->getKey())
         );
 
-        if ($response->getStatus() !== 'SUCCESS') {
+        if ($response->getStatus() !== self::SUCCESS) {
             throw new InvoiceNotAddedException();
         }
 
