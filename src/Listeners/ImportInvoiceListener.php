@@ -2,7 +2,7 @@
 
 namespace EscolaLms\FakturowniaIntegration\Listeners;
 
-use EscolaLms\Cart\Events\OrderPaid;
+use EscolaLms\Cart\Events\OrderCreated;
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 
 class ImportInvoiceListener
@@ -15,7 +15,7 @@ class ImportInvoiceListener
         $this->fakturowniaIntegrationService = $fakturowniaIntegrationService;
     }
 
-    public function handle(OrderPaid $event): void
+    public function handle(OrderCreated $event): void
     {
         $this->fakturowniaIntegrationService->import($event->getOrder());
     }
