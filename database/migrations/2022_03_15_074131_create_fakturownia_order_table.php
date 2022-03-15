@@ -11,17 +11,11 @@ class CreateFakturowniaOrderTable extends Migration
         Schema::create('fakturownia-orders', function (Blueprint $table) {
             $table->unsignedInteger('fakturownia_id');
             $table->unsignedInteger('order_id');
-
-            $table->foreign('order_id')->references('id')->on('orders');
         });
     }
 
     public function down(): void
     {
-        Schema::table('fakturownia-orders', function (Blueprint $table) {
-            $table->dropForeign('order_id');
-        });
-
         Schema::drop('fakturownia-orders');
     }
 }
