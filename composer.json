@@ -28,6 +28,7 @@
   "autoload": {
     "psr-4": {
       "EscolaLms\\FakturowniaIntegration\\": "src",
+      "EscolaLms\\FakturowniaIntegration\\Database\\Factories\\": "database/factories",
       "EscolaLms\\FakturowniaIntegration\\Tests\\": "tests"
     }
   },
