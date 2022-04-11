@@ -10,6 +10,7 @@ use EscolaLms\FakturowniaIntegration\Repositories\Contracts\FakturowniaOrderRepo
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 use EscolaLms\FakturowniaIntegration\Dtos\FakturowniaDto;
 use EscolaLms\FakturowniaIntegration\Utils\Fakturownia;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class FakturowniaIntegrationService implements FakturowniaIntegrationServiceContract
 {
@@ -40,12 +41,15 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
         return true;
     }
 
+    /**
+     * @throws RequestErrorException
+     */
     public function getInvoicePdf(Order $order): ResponseInterface
     {
         $fakturownia = new Fakturownia();
 
         $response = $fakturownia->getInvoicePdf(
-            $this->fakturowniaOrderRepository->getFirstFakturowniaIdByOrderId($order->getKey())
+            $this->getFirstOrCreateFakturowniaIdByOrderId($order)
         );
 
         if ($response->getStatus() !== self::SUCCESS) {
@@ -53,5 +57,19 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
         }
 
         return $response;
+    }
+
+    /**
+     * @throws RequestErrorException
+     */
+    private function getFirstOrCreateFakturowniaIdByOrderId(Order $order): int
+    {
+        try {
+            return $this->fakturowniaOrderRepository->getFirstFakturowniaIdByOrderId($order->getKey());
+        } catch (ModelNotFoundException $e) {
+            $this->import($order);
+        }
+
+        return $this->fakturowniaOrderRepository->getFirstFakturowniaIdByOrderId($order->getKey());
     }
 }

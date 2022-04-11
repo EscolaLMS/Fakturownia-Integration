@@ -5,6 +5,7 @@ namespace EscolaLms\FakturowniaIntegration\Repositories;
 use EscolaLms\Core\Repositories\BaseRepository;
 use EscolaLms\FakturowniaIntegration\Models\FakturowniaOrder;
 use EscolaLms\FakturowniaIntegration\Repositories\Contracts\FakturowniaOrderRepositoryContract;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Collection;
 
 class FakturowniaOrderRepository extends BaseRepository implements FakturowniaOrderRepositoryContract
@@ -29,6 +30,9 @@ class FakturowniaOrderRepository extends BaseRepository implements FakturowniaOr
         return $this->model->newQuery()->get();
     }
 
+    /**
+     * @throws ModelNotFoundException
+     */
     public function getFirstFakturowniaIdByOrderId(int $orderId): int
     {
         return $this->model->newQuery()->where('order_id', '=', $orderId)->firstOrFail()->fakturownia_id;

@@ -3,6 +3,7 @@
 namespace EscolaLms\FakturowniaIntegration\Listeners;
 
 use EscolaLms\Cart\Events\OrderCreated;
+use EscolaLms\FakturowniaIntegration\Exceptions\InvoiceNotAddedException;
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 
 class ImportInvoiceListener
@@ -17,6 +18,8 @@ class ImportInvoiceListener
 
     public function handle(OrderCreated $event): void
     {
-        $this->fakturowniaIntegrationService->import($event->getOrder());
+        try {
+            $this->fakturowniaIntegrationService->import($event->getOrder());
+        } catch (InvoiceNotAddedException $e) {}
     }
 }
