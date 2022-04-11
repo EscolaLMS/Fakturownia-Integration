@@ -2,6 +2,7 @@
 
 namespace EscolaLms\FakturowniaIntegration;
 
+use EscolaLms\FakturowniaIntegration\Providers\EventServiceProvider;
 use EscolaLms\FakturowniaIntegration\Repositories\Contracts\FakturowniaOrderRepositoryContract;
 use EscolaLms\FakturowniaIntegration\Repositories\FakturowniaOrderRepository;
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
@@ -30,6 +31,7 @@ class EscolaLmsFakturowniaIntegrationServiceProvider extends ServiceProvider
     public function register()
     {
         parent::register();
+        $this->app->register(EventServiceProvider::class);
 
         $this->mergeConfigFrom(__DIR__ . '/config.php', 'fakturownia');
     }
