@@ -34,7 +34,7 @@ Add table `fakturownia_orders` and relation to table `order` from packed `escola
 
 ## Endpoints
 
-[![swagger](https://img.shields.io/badge/documentation-swagger-green)](https://escolalms.github.io/Fakturownia-Integration/)
+All the endpoints are defined in [![swagger](https://img.shields.io/badge/documentation-swagger-green)](https://escolalms.github.io/Fakturownia-Integration/)
 
 ## Tests
 
