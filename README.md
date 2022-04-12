@@ -10,3 +10,15 @@ Package for generate Fakturownia Integration from order
 [![downloads](https://img.shields.io/packagist/dt/escolalms/Fakturownia-Integration)](https://packagist.org/packages/escolalms/Fakturownia-Integration)
 [![downloads](https://img.shields.io/packagist/v/escolalms/Fakturownia-Integration)](https://packagist.org/packages/escolalms/Fakturownia-Integration)
 [![downloads](https://img.shields.io/packagist/l/escolalms/Fakturownia-Integration)](https://packagist.org/packages/escolalms/Fakturownia-Integration)
+
+This package is used to add invoices to Fakturownia after dispatching event.
+- `EscolaLms\Cart\Events\OrderCreated` => add invoice to Fakturownia
+
+## Installation
+
+Create file `.env` and set 
+```
+FAKTUROWNIA_HOST=
+FAKTUROWNIA_TOKEN=
+```
+to your account in <a href="https://fakturownia.pl" target="_blank">Fakturownia</a>

@@ -33,9 +33,9 @@ class FakturowniaOrderRepository extends BaseRepository implements FakturowniaOr
     /**
      * @throws ModelNotFoundException
      */
-    public function getFirstFakturowniaIdByOrderId(int $orderId): int
+    public function getFirstFakturowniaOrderByOrderId(int $orderId): FakturowniaOrder
     {
-        return $this->model->newQuery()->where('order_id', '=', $orderId)->firstOrFail()->fakturownia_id;
+        return $this->model->newQuery()->where('order_id', '=', $orderId)->firstOrFail();
     }
 
     public function setFakturowniaIdToOrder(int $orderId, int $fakturowniaId): FakturowniaOrder

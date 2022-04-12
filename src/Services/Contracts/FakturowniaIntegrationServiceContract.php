@@ -6,6 +6,6 @@ use EscolaLms\Cart\Models\Order;
 
 interface FakturowniaIntegrationServiceContract
 {
-    public function import(Order $order): bool;
+    public function import(Order $order): int;
     public function getInvoicePdf(Order $order): ResponseInterface;
 }

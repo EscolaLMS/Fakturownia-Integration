@@ -26,7 +26,7 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
     /**
      * @throws InvoiceNotAddedException|RequestErrorException
      */
-    public function import(Order $order): bool
+    public function import(Order $order): int
     {
         $fakturownia = new Fakturownia();
 
@@ -38,7 +38,7 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
         }
         $this->fakturowniaOrderRepository->setFakturowniaIdToOrder($order->getKey(), $response->getData()['id']);
 
-        return true;
+        return $response->getData()['id'];
     }
 
     /**
@@ -64,12 +64,8 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
      */
     private function getFirstOrCreateFakturowniaIdByOrderId(Order $order): int
     {
-        try {
-            return $this->fakturowniaOrderRepository->getFirstFakturowniaIdByOrderId($order->getKey());
-        } catch (ModelNotFoundException $e) {
-            $this->import($order);
-        }
+        $fakturowniaOrder = $this->fakturowniaOrderRepository->getFirstFakturowniaOrderByOrderId($order->getKey());
 
-        return $this->fakturowniaOrderRepository->getFirstFakturowniaIdByOrderId($order->getKey());
+        return $fakturowniaOrder->fakturownia_id ?? $this->import($order);
     }
 }
