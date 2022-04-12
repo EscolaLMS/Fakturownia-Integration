@@ -17,7 +17,7 @@ This package is used to add invoices to Fakturownia after catch dispatched event
 
 ## Installing
 
-- `composer require escolalms/questionnaire`
+- `composer require escolalms/fakturownia-integration`
 - `php artisan migrate`
 - Create file `.env` and set to your account in <a href="https://fakturownia.pl" target="_blank">Fakturownia</a>
 ```
