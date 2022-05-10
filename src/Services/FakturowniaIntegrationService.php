@@ -65,6 +65,7 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
     private function getFirstOrCreateFakturowniaIdByOrderId(Order $order): int
     {
         $fakturowniaOrder = $this->fakturowniaOrderRepository->getFirstFakturowniaOrderByOrderId($order->getKey());
+
         return $fakturowniaOrder->fakturownia_id ?? $this->import($order);
     }
 }
