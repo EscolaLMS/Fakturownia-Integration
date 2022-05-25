@@ -25,9 +25,8 @@ class InvoicesApiController extends EscolaLmsBaseController implements InvoicesA
      */
     public function read(InvoicesReadRequest $request): Response
     {
-        $response = FacadesResponse::make($this->invoicesService->getInvoicePdf($request->getOrder())->getData()['content'], 200);
-        $response->header('Content-Type', 'application/pdf');
+        $file_contents = base64_encode($this->invoicesService->getInvoicePdf($request->getOrder())->getData()['content']);
 
-        return $response;
+        return FacadesResponse::make($file_contents);
     }
 }
