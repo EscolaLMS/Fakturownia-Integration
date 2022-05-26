@@ -259,7 +259,7 @@ class FakturowniaDto
         $this->positions = collect();
         foreach ($items as $item) {
             $position = new Position($item);
-            $this->totalPriceGross += $item->totalPriceGross;
+            $this->totalPriceGross += $item->total_with_tax;
             $this->positions->push($position->prepareData());
         }
     }
