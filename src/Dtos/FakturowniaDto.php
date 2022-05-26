@@ -16,7 +16,7 @@ class FakturowniaDto
     private ?string $sellDate;
     private ?string $issueDate;
     private ?string $paymentTo;
-    private ?float $totalPriceGross = 0;
+    private ?float $totalPriceGross = 0.00;
     private ?string $sellerName;
     private ?string $sellerTaxNo;
     private ?string $sellerBankAccount;

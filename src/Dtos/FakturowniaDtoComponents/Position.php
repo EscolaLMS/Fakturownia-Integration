@@ -16,7 +16,7 @@ class Position
         $this->name = $item->name ?? $item->title ?? $item->buyable->name ?? $item->buyable->title;
         $this->tax = $item->vat ?? 0;
         $this->quantity = $item->quantity;
-        $this->totalPriceGross = ($item->price * $item->quantity) / 100;
+        $this->totalPriceGross = ($item->total_with_tax * $item->quantity) / 100;
     }
 
     public function prepareData()
