@@ -10,35 +10,33 @@ use EscolaLms\FakturowniaIntegration\Repositories\Contracts\FakturowniaOrderRepo
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 use EscolaLms\FakturowniaIntegration\Dtos\FakturowniaDto;
 use EscolaLms\FakturowniaIntegration\Utils\Fakturownia;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class FakturowniaIntegrationService implements FakturowniaIntegrationServiceContract
 {
     private CONST SUCCESS = 'SUCCESS';
 
     private FakturowniaOrderRepositoryContract $fakturowniaOrderRepository;
+    private Fakturownia $fakturownia;
 
     public function __construct(FakturowniaOrderRepositoryContract $fakturowniaOrderRepository)
     {
         $this->fakturowniaOrderRepository = $fakturowniaOrderRepository;
+        $this->fakturownia = new Fakturownia();
     }
 
-    /**
-     * @throws InvoiceNotAddedException|RequestErrorException
-     */
-    public function import(Order $order, bool $returnFullResponse = false)
-    {
-        $fakturownia = new Fakturownia();
 
+    public function import(Order $order): ResponseInterface
+    {
         $invoiceDto = new FakturowniaDto($order);
-        $response = $fakturownia->createInvoice($invoiceDto->prepareData());
+        $response = $this->fakturownia->createInvoice($invoiceDto->prepareData());
 
         if ($response->getStatus() !== self::SUCCESS) {
             throw new InvoiceNotAddedException();
         }
         $this->fakturowniaOrderRepository->setFakturowniaIdToOrder($order->getKey(), $response->getData()['id']);
-
-        return $returnFullResponse ? $response : $response->getData()['id'];
+        return $this->fakturownia->getInvoicePdf(
+            $response->getData()['id']
+        );
     }
 
     /**
@@ -46,26 +44,20 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
      */
     public function getInvoicePdf(Order $order): ResponseInterface
     {
-        $fakturownia = new Fakturownia();
-
-        $response = $fakturownia->getInvoicePdf(
-            $this->getFirstOrCreateFakturowniaIdByOrderId($order)
-        );
-
-        if ($response->getStatus() !== self::SUCCESS) {
-            $response = $this->import($order, true);
-        }
-
-        return $response;
+        return $this->getFirstOrCreateFakturowniaIdByOrderId($order);
     }
 
-    /**
-     * @throws RequestErrorException
-     */
-    private function getFirstOrCreateFakturowniaIdByOrderId(Order $order): int
+    private function getFirstOrCreateFakturowniaIdByOrderId(Order $order): ResponseInterface
     {
-        $fakturowniaOrder = $this->fakturowniaOrderRepository->getFirstFakturowniaOrderByOrderId($order->getKey());
-
-        return $fakturowniaOrder->fakturownia_id ?? $this->import($order);
+        $fakturowniaOrders = $this->fakturowniaOrderRepository->getFakturowniaOrdersByOrderId($order->getKey());
+        foreach ($fakturowniaOrders as $fakturowniaOrder) {
+            $response = $this->fakturownia->getInvoicePdf($fakturowniaOrder->fakturownia_id);
+            if ($response->getStatus() !== self::SUCCESS) {
+                $fakturowniaOrder->delete();
+            } else {
+                return $response;
+            }
+        }
+        return $this->import($order);
     }
 }
