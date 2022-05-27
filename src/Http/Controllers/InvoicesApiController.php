@@ -9,9 +9,12 @@ use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationSe
 use Exception;
 use Illuminate\Support\Facades\Response as FacadesResponse;
 use Illuminate\Http\Response;
+use EscolaLms\FakturowniaIntegration\Traits\SetLocale;
 
 class InvoicesApiController extends EscolaLmsBaseController implements InvoicesApiContract
 {
+    use SetLocale;
+
     private FakturowniaIntegrationServiceContract $invoicesService;
 
     public function __construct(
@@ -25,6 +28,7 @@ class InvoicesApiController extends EscolaLmsBaseController implements InvoicesA
      */
     public function read(InvoicesReadRequest $request): Response
     {
+        $this->setLocale();
         $file_contents = base64_encode($this->invoicesService->getInvoicePdf($request->getOrder())->getData()['content']);
 
         return FacadesResponse::make($file_contents);

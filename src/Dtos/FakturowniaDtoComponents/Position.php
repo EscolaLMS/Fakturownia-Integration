@@ -17,7 +17,7 @@ class Position
     public function __construct(OrderItem $item)
     {
         $this->name = $item->name ?? $item->title ?? $item->buyable->name ?? $item->buyable->title;
-        $this->tax = $item->vat ?? 0;
+        $this->tax = $item->tax_rate ?? 0;
         $this->quantity = $item->quantity;
         $this->totalPriceGross = ($item->total_with_tax * $item->quantity) / 100;
         $this->setPrefix($item);
