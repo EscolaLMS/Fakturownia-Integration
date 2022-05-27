@@ -26,7 +26,7 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
     /**
      * @throws InvoiceNotAddedException|RequestErrorException
      */
-    public function import(Order $order): int
+    public function import(Order $order, bool $returnFullResponse = false)
     {
         $fakturownia = new Fakturownia();
 
@@ -38,7 +38,7 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
         }
         $this->fakturowniaOrderRepository->setFakturowniaIdToOrder($order->getKey(), $response->getData()['id']);
 
-        return $response->getData()['id'];
+        return $returnFullResponse ? $response : $response->getData()['id'];
     }
 
     /**
@@ -53,7 +53,7 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
         );
 
         if ($response->getStatus() !== self::SUCCESS) {
-            throw new InvoiceNotAddedException();
+            $response = $this->import($order, true);
         }
 
         return $response;
