@@ -61,7 +61,6 @@ class InvoicesApiTest extends TestCase
     public function testCanReadInvoices(): void
     {
         $response = $this->actingAs($this->user, 'api')->getJson('api/invoices/'.$this->order->getKey());
-
         $response->assertOk();
     }
 
