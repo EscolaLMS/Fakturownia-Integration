@@ -46,6 +46,14 @@ class FakturowniaOrderRepository extends BaseRepository implements FakturowniaOr
         return $this->model->newQuery()->where('order_id', '=', $orderId)->get();
     }
 
+    public function deleteFakturowniaOrder(FakturowniaOrder $fakturowniaOrder): void
+    {
+        \DB::table('fakturownia_orders')->where([
+            'fakturownia_id' => $fakturowniaOrder->fakturownia_id,
+            'order_id' => $fakturowniaOrder->order_id
+        ])->delete();
+    }
+
     public function setFakturowniaIdToOrder(int $orderId, int $fakturowniaId): FakturowniaOrder
     {
         return $this->model->newQuery()->firstOrCreate(
