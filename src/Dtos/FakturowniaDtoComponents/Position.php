@@ -42,8 +42,12 @@ class Position
     {
         if ($item->buyable instanceof Product) {
             $product = $item->buyable;
-            $productable = $product->productables()->first();
-            $class = $productable->productable_type ?? '';
+            if ($product->type === ProductType::SINGLE) {
+                $productable = $product->productables()->first();
+                $class = $productable->productable_type ?? '';
+            } else {
+                $class = 'DevelopmentProgram';
+            }
         } else {
             $class = $item->buyable_type ?? '';
         }
