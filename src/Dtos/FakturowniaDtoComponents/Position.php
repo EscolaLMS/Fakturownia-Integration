@@ -43,7 +43,7 @@ class Position
         if ($item->buyable instanceof Product) {
             $product = $item->buyable;
             $productable = $product->productables()->first();
-            $class = $productable ? get_class($productable->productable_type) : '';
+            $class = $productable->productable_type ?? '';
         } else {
             $class = $item->buyable_type ?? '';
         }
