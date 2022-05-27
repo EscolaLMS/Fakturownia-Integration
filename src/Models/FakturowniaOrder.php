@@ -29,6 +29,10 @@ class FakturowniaOrder extends Model
     public $timestamps = false;
     public $incrementing = false;
     protected $table = 'fakturownia_orders';
+    protected $fillable = [
+        'order_id',
+        'fakturownia_id'
+    ];
 
     public function order(): BelongsTo
     {

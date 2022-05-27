@@ -40,9 +40,9 @@ class FakturowniaOrderRepository extends BaseRepository implements FakturowniaOr
 
     public function setFakturowniaIdToOrder(int $orderId, int $fakturowniaId): FakturowniaOrder
     {
-        return $this->model->newQuery()->where([
-            ['order_id', '=', $orderId],
-            ['fakturownia_id', '=', $fakturowniaId]
-        ])->firstOrCreate();
+        return $this->model->newQuery()->firstOrCreate(
+            ['order_id' => $orderId],
+            ['fakturownia_id' => $fakturowniaId]
+        );
     }
 }
