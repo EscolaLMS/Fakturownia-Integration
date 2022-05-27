@@ -43,6 +43,6 @@ class FakturowniaOrderRepository extends BaseRepository implements FakturowniaOr
         return $this->model->newQuery()->where([
             ['order_id', '=', $orderId],
             ['fakturownia_id', '=', $fakturowniaId]
-        ])->firstOrNew();
+        ])->firstOrCreate();
     }
 }
