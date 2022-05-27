@@ -9,5 +9,6 @@ interface FakturowniaOrderRepositoryContract
 {
     public function getFirstFakturowniaOrderByOrderId(int $orderId): ?FakturowniaOrder;
     public function getFakturowniaOrdersByOrderId(int $orderId): Collection;
+    public function deleteFakturowniaOrder(FakturowniaOrder $fakturowniaOrder): void;
     public function setFakturowniaIdToOrder(int $orderId, int $fakturowniaId): FakturowniaOrder;
 }
