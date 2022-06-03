@@ -42,10 +42,10 @@ class FakturowniaDto
         $this->setSellDate($this->now->format('Y-m-d'));
         $this->setIssueDate($this->now->format('Y-m-d'));
         $this->setBuyerEmail($order->client_email ?? $order->user->email ?? '');
-        $this->setBuyerName($order->client_name ?? $order->client_company ?? ($order->user->first_name . " " . $order->last_name) ?? '');
+        $this->setBuyerName($order->client_name ?? $order->client_company ?? ($order->user->first_name . " " . $order->user->last_name) ?? '');
         $this->setBuyerTaxNo($order->client_taxid ?? '');
         $this->setBuyerPostCode($order->client_postal ?? '');
-        $this->setBuyerCity($order->client_city ?? '');
+        $this->setBuyerCity($order->client_city ?? $order->user->city ?? '');
         $this->setBuyerStreet($order->client_street ? $order->client_street.($order->client_street_number ? (' '.$order->client_street_number) : '') : '');
         $this->setPaymentTo($this->now->format('Y-m-d'));
         $this->setSellerName(Config::get('faktorownia.seller.name', 'Escola'));

@@ -7,7 +7,7 @@ trait SetLocale
 {
     public function setLocale(): void
     {
-        $locale = substr(request()->header('accept-language', app()->getLocale()), 0, 2);
+        $locale = substr(request()->header('invoice-language', 'pl'), 0, 2);
         app()->setLocale($locale);
     }
 }
