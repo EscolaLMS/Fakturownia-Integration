@@ -41,21 +41,21 @@ class FakturowniaDto
         $this->setNumber(null);
         $this->setSellDate($this->now->format('Y-m-d'));
         $this->setIssueDate($this->now->format('Y-m-d'));
-        $this->setBuyerEmail($order->client_email ?? $order->user->email ?? '');
-        $this->setBuyerName($order->client_name ?? $order->client_company ?? ($order->user->first_name . " " . $order->user->last_name) ?? '');
-        $this->setBuyerTaxNo($order->client_taxid ?? '');
-        $this->setBuyerPostCode($order->client_postal ?? '');
-        $this->setBuyerCity($order->client_city ?? $order->user->city ?? '');
-        $this->setBuyerStreet($order->client_street ? $order->client_street.($order->client_street_number ? (' '.$order->client_street_number) : '') : '');
+        $this->setBuyerEmail($order->client_email ?? $order->user->email ?? null);
+        $this->setBuyerName($order->client_name ?? $order->client_company ?? ($order->user->first_name . " " . $order->user->last_name) ?? null);
+        $this->setBuyerTaxNo($order->client_taxid ?? null);
+        $this->setBuyerPostCode($order->client_postal ?? null);
+        $this->setBuyerCity($order->client_city ?? $order->user->city ?? null);
+        $this->setBuyerStreet($order->client_street ? $order->client_street.($order->client_street_number ? (' '.$order->client_street_number) : '') : null);
         $this->setPaymentTo($this->now->format('Y-m-d'));
-        $this->setSellerName(Config::get('faktorownia.seller.name', 'Escola'));
-        $this->setSellerTaxNo(Config::get('faktorownia.seller.nip', ''));
-        $this->setSellerBank(Config::get('faktorownia.seller.bank', ''));
-        $this->setSellerBankAccount(Config::get('faktorownia.seller.bank_account', ''));
-        $this->setSellerEmail(Config::get('faktorownia.seller.email', ''));
-        $this->setSellerStreet(Config::get('faktorownia.seller.street', ''));
-        $this->setSellerCity(Config::get('faktorownia.seller.city', ''));
-        $this->setSellerPostCode(Config::get('faktorownia.seller.zip_code', ''));
+        $this->setSellerName(Config::get('fakturownia.seller.name', 'Escola'));
+        $this->setSellerTaxNo(Config::get('fakturownia.seller.nip', ''));
+        $this->setSellerBank(Config::get('fakturownia.seller.bank', ''));
+        $this->setSellerBankAccount(Config::get('fakturownia.seller.bank_account', ''));
+        $this->setSellerEmail(Config::get('fakturownia.seller.email', ''));
+        $this->setSellerStreet(Config::get('fakturownia.seller.street', ''));
+        $this->setSellerCity(Config::get('fakturownia.seller.city', ''));
+        $this->setSellerPostCode(Config::get('fakturownia.seller.zip_code', ''));
         $this->setPositions($order->items);
     }
 
@@ -285,6 +285,9 @@ class FakturowniaDto
             'seller_city' => $this->getSellerCity(),
             'seller_street' => $this->getSellerStreet(),
             'buyer_name' => $this->getBuyerName(),
+            'buyer_city' => $this->getBuyerCity(),
+            'buyer_street' => $this->getBuyerStreet(),
+            'buyer_post_code' => $this->getBuyerPostCode(),
             'buyer_email' => $this->getBuyerEmail(),
             'buyer_tax_no' => $this->getBuyerTaxNo(),
             'positions' => $this->getPositions()->toArray(),
