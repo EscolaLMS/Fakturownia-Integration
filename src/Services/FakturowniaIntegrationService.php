@@ -50,12 +50,14 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
     private function getFirstOrCreateFakturowniaIdByOrderId(Order $order): ResponseInterface
     {
         $fakturowniaOrders = $this->fakturowniaOrderRepository->getFakturowniaOrdersByOrderId($order->getKey());
-        foreach ($fakturowniaOrders as $fakturowniaOrder) {
-            $response = $this->fakturownia->getInvoicePdf($fakturowniaOrder->fakturownia_id);
-            if ($response->getStatus() !== self::SUCCESS) {
-                $this->fakturowniaOrderRepository->deleteFakturowniaOrder($fakturowniaOrder);
-            } else {
-                return $response;
+        if ($fakturowniaOrders->count() > 0) {
+            foreach ($fakturowniaOrders as $fakturowniaOrder) {
+                $response = $this->fakturownia->getInvoicePdf($fakturowniaOrder->fakturownia_id);
+                if ($response->getStatus() !== self::SUCCESS) {
+                    $this->fakturowniaOrderRepository->deleteFakturowniaOrder($fakturowniaOrder);
+                } else {
+                    return $response;
+                }
             }
         }
         return $this->import($order);
