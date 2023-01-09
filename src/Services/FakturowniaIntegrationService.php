@@ -29,8 +29,12 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
     {
         $invoiceDto = new FakturowniaDto($order);
         $response = $this->fakturownia->createInvoice($invoiceDto->prepareData());
-
         if ($response->getStatus() !== self::SUCCESS) {
+            \Log::debug('import fakturownia', [
+                'dto' => $invoiceDto,
+                'response' => $response,
+                'order' => $order
+            ]);
             throw new InvoiceNotAddedException();
         }
         $this->fakturowniaOrderRepository->setFakturowniaIdToOrder($order->getKey(), $response->getData()['id']);
