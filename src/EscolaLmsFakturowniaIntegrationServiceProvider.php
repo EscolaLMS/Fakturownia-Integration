@@ -8,6 +8,7 @@ use EscolaLms\FakturowniaIntegration\Repositories\FakturowniaOrderRepository;
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 use EscolaLms\FakturowniaIntegration\Services\FakturowniaIntegrationService;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 /**
  * SWAGGER_VERSION
@@ -25,6 +26,10 @@ class EscolaLmsFakturowniaIntegrationServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
+        }
+
+        if (!$this->app->routesAreCached() && method_exists(Passport::class, 'routes')) {
+            Passport::routes();
         }
     }
 
