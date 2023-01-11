@@ -10,12 +10,12 @@
     "abb/fakturownia": "^1.6"
   },
   "require-dev": {
-    "escolalms/auth": "^0.1.54",
+    "escolalms/auth": "^0.2",
     "phpunit/phpunit": "^9.0",
     "orchestra/testbench": ">=5.0"
   },
   "suggest": {
-    "escolalms/auth": "^0.1.54",
+    "escolalms/auth": "^0.2",
     "escolalms/settings": "^0.1.2"
   },
   "license": "MIT",
