@@ -7,6 +7,7 @@ use EscolaLms\FakturowniaIntegration\Repositories\Contracts\FakturowniaOrderRepo
 use EscolaLms\FakturowniaIntegration\Repositories\FakturowniaOrderRepository;
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 use EscolaLms\FakturowniaIntegration\Services\FakturowniaIntegrationService;
+use EscolaLms\Settings\EscolaLmsSettingsServiceProvider;
 use EscolaLms\Settings\Facades\AdministrableConfig;
 use Illuminate\Support\ServiceProvider;
 
@@ -33,19 +34,21 @@ class EscolaLmsFakturowniaIntegrationServiceProvider extends ServiceProvider
     {
         parent::register();
         $this->app->register(EventServiceProvider::class);
+        if (class_exists(EscolaLmsSettingsServiceProvider::class)) {
+            $this->app->register(EscolaLmsSettingsServiceProvider::class);
 
+            AdministrableConfig::registerConfig('fakturownia.host', ['nullable', 'string'], false);
+            AdministrableConfig::registerConfig('fakturownia.token', ['nullable', 'string'], false);
+            AdministrableConfig::registerConfig('fakturownia.seller.name', ['nullable', 'string'], false);
+            AdministrableConfig::registerConfig('fakturownia.seller.nip', ['nullable', 'string'], false);
+            AdministrableConfig::registerConfig('fakturownia.seller.bank', ['nullable', 'string'], false);
+            AdministrableConfig::registerConfig('fakturownia.seller.bank_account', ['nullable', 'string'], false);
+            AdministrableConfig::registerConfig('fakturownia.seller.email', ['nullable', 'string'], false);
+            AdministrableConfig::registerConfig('fakturownia.seller.street', ['nullable', 'string'], false);
+            AdministrableConfig::registerConfig('fakturownia.seller.city', ['nullable', 'string'], false);
+            AdministrableConfig::registerConfig('fakturownia.seller.zip_code', ['nullable', 'string'], false);
+        }
         $this->mergeConfigFrom(__DIR__ . '/config.php', 'fakturownia');
-
-        AdministrableConfig::registerConfig('fakturownia.host', ['nullable', 'string'], false);
-        AdministrableConfig::registerConfig('fakturownia.token', ['nullable', 'string'], false);
-        AdministrableConfig::registerConfig('fakturownia.seller.name', ['nullable', 'string'], false);
-        AdministrableConfig::registerConfig('fakturownia.seller.nip', ['nullable', 'string'], false);
-        AdministrableConfig::registerConfig('fakturownia.seller.bank', ['nullable', 'string'], false);
-        AdministrableConfig::registerConfig('fakturownia.seller.bank_account', ['nullable', 'string'], false);
-        AdministrableConfig::registerConfig('fakturownia.seller.email', ['nullable', 'string'], false);
-        AdministrableConfig::registerConfig('fakturownia.seller.street', ['nullable', 'string'], false);
-        AdministrableConfig::registerConfig('fakturownia.seller.city', ['nullable', 'string'], false);
-        AdministrableConfig::registerConfig('fakturownia.seller.zip_code', ['nullable', 'string'], false);
     }
 
     protected function bootForConsole(): void
