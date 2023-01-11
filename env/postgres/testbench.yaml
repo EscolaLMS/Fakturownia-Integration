@@ -11,3 +11,5 @@ providers:
   - Laravel\Passport\PassportServiceProvider
   - EscolaLms\Core\EscolaLmsServiceProvider
   - EscolaLms\FakturowniaIntegration\EscolaLmsFakturowniaIntegrationServiceProvider
+  - EscolaLms\Auth\EscolaLmsAuthServiceProvider
+  - EscolaLms\Core\EscolaLmsServiceProvider
