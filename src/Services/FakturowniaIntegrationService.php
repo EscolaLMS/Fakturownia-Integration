@@ -38,9 +38,9 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
             throw new InvoiceNotAddedException();
         }
         $this->fakturowniaOrderRepository->setFakturowniaIdToOrder($order->getKey(), $response->getData()['id']);
-        return $this->fakturownia->getInvoicePdf(
-            $response->getData()['id']
-        );
+        $invoiceId = $response->getData()['id'];
+        $this->fakturownia->sendInvoice($invoiceId);
+        return $this->fakturownia->getInvoicePdf($invoiceId);
     }
 
     /**
