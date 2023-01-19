@@ -36,13 +36,18 @@ class FakturowniaDto
 
     public function __construct(Order $order)
     {
+        if ($order->client_taxid) {
+            $name = $order->client_company ?? $order->client_name ?? ($order->user->first_name . " " . $order->user->last_name) ?? '';
+        } else {
+            $name = $order->client_name ?? $order->client_company ?? ($order->user->first_name . " " . $order->user->last_name) ?? '';
+        }
         $this->now = TimeHelper::generateDateObject('now');
         $this->setKind('vat');
         $this->setNumber(null);
         $this->setSellDate($this->now->format('Y-m-d'));
         $this->setIssueDate($this->now->format('Y-m-d'));
         $this->setBuyerEmail($order->client_email ?? $order->user->email ?? null);
-        $this->setBuyerName($order->client_name ?? $order->client_company ?? ($order->user->first_name . " " . $order->user->last_name) ?? null);
+        $this->setBuyerName($name ?? null);
         $this->setBuyerTaxNo($order->client_taxid ?? null);
         $this->setBuyerPostCode($order->client_postal ?? null);
         $this->setBuyerCity($order->client_city ?? $order->user->city ?? null);
