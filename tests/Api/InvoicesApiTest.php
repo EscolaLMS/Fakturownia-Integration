@@ -2,6 +2,7 @@
 
 namespace EscolaLms\FakturowniaIntegration\Tests\Api;
 
+use EscolaLms\Cart\Enums\OrderStatus;
 use EscolaLms\Cart\Models\Order;
 use EscolaLms\Cart\Models\OrderItem;
 use EscolaLms\Cart\Models\Product;
@@ -56,6 +57,7 @@ class InvoicesApiTest extends TestCase
         }
         $this->order->update([
             'total' => $orderTotal,
+            'status' => OrderStatus::PAID,
         ]);
 
         FakturowniaOrder::factory()->create([
@@ -68,6 +70,16 @@ class InvoicesApiTest extends TestCase
     {
         $response = $this->actingAs($this->user, 'api')->getJson('api/invoices/'.$this->order->getKey());
         $response->assertOk();
+    }
+
+    public function testCanReadInvoicesOrderNoPaid(): void
+    {
+        $order = Order::factory()->for($this->user)->create([
+            'total' => 1000,
+            'status' => OrderStatus::PROCESSING,
+        ]);
+        $response = $this->actingAs($this->user, 'api')->getJson('api/invoices/'.$order->getKey());
+        $response->assertNoContent();
     }
 
     public function testCanReadInvoicesFreeOrder(): void
