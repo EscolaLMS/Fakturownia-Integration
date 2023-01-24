@@ -13,7 +13,7 @@ Package for generate Fakturownia Integration from order
 
 ## What does it do
 
-This package is used to add invoices to Fakturownia after catch dispatched event `EscolaLms\Cart\Events\OrderCreated`.
+This package is used to add invoices to Fakturownia after catch dispatched event `EscolaLms\Cart\Events\OrderPaid`.
 
 ## Installing
 
@@ -48,7 +48,7 @@ This package does not dispatch any events.
 
 ## Listeners
 
-- ImportInvoiceListener catch `EscolaLms\Cart\Events\OrderCreated` => add invoice to Fakturownia
+- ImportInvoiceListener catch `EscolaLms\Cart\Events\OrderPaid` => add invoice to Fakturownia
 
 ## How to use this on frontend.
 

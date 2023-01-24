@@ -2,7 +2,6 @@
 
 namespace EscolaLms\FakturowniaIntegration\Providers;
 
-use EscolaLms\Cart\Events\OrderCreated;
 use EscolaLms\Cart\Events\OrderPaid;
 use EscolaLms\FakturowniaIntegration\Listeners\ImportInvoiceListener;
 

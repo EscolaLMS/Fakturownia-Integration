@@ -2,7 +2,7 @@
 
 namespace EscolaLms\FakturowniaIntegration\Listeners;
 
-use EscolaLms\Cart\Events\OrderCreated;
+use EscolaLms\Cart\Events\OrderPaid;
 use EscolaLms\FakturowniaIntegration\Exceptions\InvoiceNotAddedException;
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 use EscolaLms\FakturowniaIntegration\Traits\SetLocale;
@@ -18,7 +18,7 @@ class ImportInvoiceListener
         $this->fakturowniaIntegrationService = $fakturowniaIntegrationService;
     }
 
-    public function handle(OrderCreated $event): void
+    public function handle(OrderPaid $event): void
     {
         $this->setLocale();
         try {
