@@ -4,6 +4,7 @@ namespace EscolaLms\FakturowniaIntegration\Services;
 
 use Abb\Fakturownia\Exception\RequestErrorException;
 use Abb\Fakturownia\ResponseInterface;
+use EscolaLms\Cart\Enums\OrderStatus;
 use EscolaLms\FakturowniaIntegration\Exceptions\InvoiceNotAddedException;
 use EscolaLms\Cart\Models\Order;
 use EscolaLms\FakturowniaIntegration\Repositories\Contracts\FakturowniaOrderRepositoryContract;
@@ -27,7 +28,7 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
 
     public function import(Order $order): ?ResponseInterface
     {
-        if ($order->total > 0) {
+        if ($order->status === OrderStatus::PAID && $order->total > 0) {
             $invoiceDto = new FakturowniaDto($order);
             $response = $this->fakturownia->createInvoice($invoiceDto->prepareData());
             if ($response->getStatus() !== self::SUCCESS) {
@@ -56,7 +57,7 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
 
     private function getFirstOrCreateFakturowniaIdByOrderId(Order $order): ?ResponseInterface
     {
-        if ($order->total > 0) {
+        if ($order->status === OrderStatus::PAID && $order->total > 0) {
             $fakturowniaOrders = $this->fakturowniaOrderRepository->getFakturowniaOrdersByOrderId($order->getKey());
             if ($fakturowniaOrders->count() > 0) {
                 foreach ($fakturowniaOrders as $fakturowniaOrder) {
