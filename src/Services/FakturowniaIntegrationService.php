@@ -25,45 +25,51 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
     }
 
 
-    public function import(Order $order): ResponseInterface
+    public function import(Order $order): ?ResponseInterface
     {
-        $invoiceDto = new FakturowniaDto($order);
-        $response = $this->fakturownia->createInvoice($invoiceDto->prepareData());
-        if ($response->getStatus() !== self::SUCCESS) {
-            \Log::debug('import fakturownia', [
-                'dto' => $invoiceDto->prepareData(),
-                'response' => $response->toArray(),
-                'order' => $order
-            ]);
-            throw new InvoiceNotAddedException();
+        if ($order->total > 0) {
+            $invoiceDto = new FakturowniaDto($order);
+            $response = $this->fakturownia->createInvoice($invoiceDto->prepareData());
+            if ($response->getStatus() !== self::SUCCESS) {
+                \Log::debug('import fakturownia', [
+                    'dto' => $invoiceDto->prepareData(),
+                    'response' => $response->toArray(),
+                    'order' => $order
+                ]);
+                throw new InvoiceNotAddedException();
+            }
+            $this->fakturowniaOrderRepository->setFakturowniaIdToOrder($order->getKey(), $response->getData()['id']);
+            $invoiceId = $response->getData()['id'];
+            $this->fakturownia->sendInvoice($invoiceId);
+            return $this->fakturownia->getInvoicePdf($invoiceId);
         }
-        $this->fakturowniaOrderRepository->setFakturowniaIdToOrder($order->getKey(), $response->getData()['id']);
-        $invoiceId = $response->getData()['id'];
-        $this->fakturownia->sendInvoice($invoiceId);
-        return $this->fakturownia->getInvoicePdf($invoiceId);
+        return null;
     }
 
     /**
      * @throws RequestErrorException
      */
-    public function getInvoicePdf(Order $order): ResponseInterface
+    public function getInvoicePdf(Order $order): ?ResponseInterface
     {
         return $this->getFirstOrCreateFakturowniaIdByOrderId($order);
     }
 
-    private function getFirstOrCreateFakturowniaIdByOrderId(Order $order): ResponseInterface
+    private function getFirstOrCreateFakturowniaIdByOrderId(Order $order): ?ResponseInterface
     {
-        $fakturowniaOrders = $this->fakturowniaOrderRepository->getFakturowniaOrdersByOrderId($order->getKey());
-        if ($fakturowniaOrders->count() > 0) {
-            foreach ($fakturowniaOrders as $fakturowniaOrder) {
-                $response = $this->fakturownia->getInvoicePdf($fakturowniaOrder->fakturownia_id);
-                if ($response->getStatus() !== self::SUCCESS) {
-                    $this->fakturowniaOrderRepository->deleteFakturowniaOrder($fakturowniaOrder);
-                } else {
-                    return $response;
+        if ($order->total > 0) {
+            $fakturowniaOrders = $this->fakturowniaOrderRepository->getFakturowniaOrdersByOrderId($order->getKey());
+            if ($fakturowniaOrders->count() > 0) {
+                foreach ($fakturowniaOrders as $fakturowniaOrder) {
+                    $response = $this->fakturownia->getInvoicePdf($fakturowniaOrder->fakturownia_id);
+                    if ($response->getStatus() !== self::SUCCESS) {
+                        $this->fakturowniaOrderRepository->deleteFakturowniaOrder($fakturowniaOrder);
+                    } else {
+                        return $response;
+                    }
                 }
             }
+            return $this->import($order);
         }
-        return $this->import($order);
+        return null;
     }
 }

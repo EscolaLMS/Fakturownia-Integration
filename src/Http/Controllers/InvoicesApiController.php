@@ -29,8 +29,11 @@ class InvoicesApiController extends EscolaLmsBaseController implements InvoicesA
     public function read(InvoicesReadRequest $request): Response
     {
         $this->setLocale();
-        $file_contents = base64_encode($this->invoicesService->getInvoicePdf($request->getOrder())->getData()['content']);
+        $response = $this->invoicesService->getInvoicePdf($request->getOrder());
+        if ($response) {
+            return FacadesResponse::make(base64_encode($response->getData()['content']));
+        }
 
-        return FacadesResponse::make($file_contents);
+        return FacadesResponse::noContent();
     }
 }
