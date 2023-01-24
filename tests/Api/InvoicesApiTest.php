@@ -44,13 +44,19 @@ class InvoicesApiTest extends TestCase
             ]));
         }
 
+        $orderTotal = 0;
+
         foreach ($products as $product) {
             $orderItem = new OrderItem();
             $orderItem->buyable()->associate($product);
             $orderItem->quantity = 1;
             $orderItem->order_id = $this->order->getKey();
             $orderItem->save();
+            $orderTotal += $product->price;
         }
+        $this->order->update([
+            'total' => $orderTotal,
+        ]);
 
         FakturowniaOrder::factory()->create([
             'order_id' => $this->order->getKey(),
@@ -62,6 +68,13 @@ class InvoicesApiTest extends TestCase
     {
         $response = $this->actingAs($this->user, 'api')->getJson('api/invoices/'.$this->order->getKey());
         $response->assertOk();
+    }
+
+    public function testCanReadInvoicesFreeOrder(): void
+    {
+        $order = Order::factory()->for($this->user)->create();
+        $response = $this->actingAs($this->user, 'api')->getJson('api/invoices/'.$order->getKey());
+        $response->assertNoContent();
     }
 
     public function testCannotFindMissingOrder(): void
