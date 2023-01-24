@@ -72,10 +72,8 @@ class InvoicesApiTest extends TestCase
 
     public function testCanReadInvoicesFreeOrder(): void
     {
-        $response = $this->actingAs($this->user, 'api')->getJson('api/invoices/'.$this->order->getKey());
-        $this->order->update([
-            'total' => 0,
-        ]);
+        $order = Order::factory()->for($this->user)->create();
+        $response = $this->actingAs($this->user, 'api')->getJson('api/invoices/'.$order->getKey());
         $response->assertNoContent();
     }
 
