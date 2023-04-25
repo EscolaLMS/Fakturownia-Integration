@@ -1,11 +1,9 @@
 name: Generate Swagger Documentation
 
-on: push
-
-#on:
-#  push:
-#    branches:
-#      - main
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   swagger-gh-pages:
@@ -21,7 +19,6 @@ jobs:
         run: cp -r env/codecov/. .
 
       - name: add Swagger main annotaion
-
         run: php -r "file_put_contents('src/EscolaLmsFakturowniaIntegrationServiceProvider.php', str_replace('SWAGGER_VERSION', '@OA\Info(title=\"EscolaLMS\", version=\"0.0.1\")', file_get_contents('src/EscolaLmsFakturowniaIntegrationServiceProvider.php')));"
 
       - name: Update composer
