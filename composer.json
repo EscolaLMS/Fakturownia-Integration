@@ -4,10 +4,11 @@
   "type": "package",
   "require": {
     "php": "^7.4|^8.0",
-    "escolalms/core": "^1.2.2",
+    "abb/fakturownia": "^1.6",
+    "darkaonline/l5-swagger": "8.1.0",
     "escolalms/cart": "^0.4",
-    "laravel/framework": "^8|^9",
-    "abb/fakturownia": "^1.6"
+    "escolalms/core": "^1.2.2",
+    "laravel/framework": "^8|^9"
   },
   "require-dev": {
     "escolalms/auth": "^0.2",
