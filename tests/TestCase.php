@@ -38,13 +38,14 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
      *
      * @return MockObject|\Abb\Fakturownia\RestClientInterface
      */
-    private function mockRestClient(): MockObject
+    protected function mockRestClient(): MockObject
     {
         $restClient = $this->createMock('Abb\Fakturownia\RestClientInterface');
 
         $responseCallback = function (int $code) {
             return function (string $url, array $params) use ($code) {
                 $params['url'] = $url;
+                $params['content'] = '';
                 return new FakturowniaResponse($code, $params);
             };
         };
@@ -84,6 +85,8 @@ class TestCase extends \EscolaLms\Core\Tests\TestCase
         $app['config']->set('auth.providers.users.model', User::class);
         $app['config']->set('passport.client_uuids', true);
         $app['config']->set('app.debug', env('APP_DEBUG', true));
+        $app['config']->set('fakturownia.host', 'host');
+        $app['config']->set('fakturownia.token', 'token-123');
 
         ExampleProductableMigration::run();
     }

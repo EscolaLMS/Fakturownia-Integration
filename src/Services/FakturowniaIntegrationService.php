@@ -17,20 +17,21 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
     private CONST SUCCESS = 'SUCCESS';
 
     private FakturowniaOrderRepositoryContract $fakturowniaOrderRepository;
+
     private Fakturownia $fakturownia;
 
-    public function __construct(FakturowniaOrderRepositoryContract $fakturowniaOrderRepository)
+    public function __construct(FakturowniaOrderRepositoryContract $fakturowniaOrderRepository, Fakturownia $fakturownia)
     {
         $this->fakturowniaOrderRepository = $fakturowniaOrderRepository;
-        $this->fakturownia = new Fakturownia();
+        $this->fakturownia = $fakturownia;
     }
-
 
     public function import(Order $order): ?ResponseInterface
     {
         if ($order->status === OrderStatus::PAID && $order->total > 0) {
             $invoiceDto = new FakturowniaDto($order);
             $response = $this->fakturownia->createInvoice($invoiceDto->prepareData());
+
             if ($response->getStatus() !== self::SUCCESS) {
                 \Log::debug('import fakturownia', [
                     'dto' => $invoiceDto->prepareData(),
@@ -39,6 +40,7 @@ class FakturowniaIntegrationService implements FakturowniaIntegrationServiceCont
                 ]);
                 throw new InvoiceNotAddedException();
             }
+
             $this->fakturowniaOrderRepository->setFakturowniaIdToOrder($order->getKey(), $response->getData()['id']);
             $invoiceId = $response->getData()['id'];
             $this->fakturownia->sendInvoice($invoiceId);

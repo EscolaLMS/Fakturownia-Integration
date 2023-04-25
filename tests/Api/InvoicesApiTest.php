@@ -13,6 +13,7 @@ use EscolaLms\Core\Tests\CreatesUsers;
 use EscolaLms\FakturowniaIntegration\Models\FakturowniaOrder;
 use EscolaLms\FakturowniaIntegration\Services\Contracts\FakturowniaIntegrationServiceContract;
 use EscolaLms\FakturowniaIntegration\Tests\TestCase;
+use EscolaLms\FakturowniaIntegration\Utils\Fakturownia;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class InvoicesApiTest extends TestCase
@@ -64,6 +65,8 @@ class InvoicesApiTest extends TestCase
             'order_id' => $this->order->getKey(),
             'fakturownia_id' => 146487636,
         ]);
+
+        $this->app->bind(Fakturownia::class, fn () => new Fakturownia($this->mockRestClient()));
     }
 
     public function testCanReadInvoices(): void
