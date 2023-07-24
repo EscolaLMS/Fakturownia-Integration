@@ -2,6 +2,11 @@
 
 There is no way to preview invoices in the admin panel.
 
+In the admin panel you can configure the connection to the Fakturownia API.
+
+![Fakturownia-Integration - Admin Panel Settings](https://github.com/EscolaLMS/Fakturownia-Integration/assets/59400506/647c21d5-85a4-4b69-a8a7-3849c40404d6)
+
+
 # Front app documentation
 
 To view invoices, access your user profile and go to the "My Ordes" section.
