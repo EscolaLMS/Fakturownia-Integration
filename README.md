@@ -12,11 +12,12 @@ Package for generate Fakturownia Integration from order
 [![downloads](https://img.shields.io/packagist/l/escolalms/Fakturownia-Integration)](https://packagist.org/packages/escolalms/Fakturownia-Integration)
 
 ## What does it do
-
 This package is used to add invoices to Fakturownia after catch dispatched event `EscolaLms\Cart\Events\OrderPaid`.
 
-## Installing
+[EscolaLms/Invoices](https://github.com/EscolaLMS/Invoices) package defined routing to generate PDF invoice on the same path.
+The two packages cannot run in parallel.
 
+## Installing
 - `composer require escolalms/fakturownia-integration`
 - `php artisan migrate`
 - Create file `.env` and set to your account in <a href="https://fakturownia.pl" target="_blank">Fakturownia</a>
@@ -26,40 +27,23 @@ FAKTUROWNIA_TOKEN=
 ```
 
 ## Database
-
 Add table `fakturownia_orders` and relation to table `order` from packed `escolalms/cart`
-
-## Example or Tutorial
 
 
 ## Endpoints
-
 All the endpoints are defined in [![swagger](https://img.shields.io/badge/documentation-swagger-green)](https://escolalms.github.io/Fakturownia-Integration/)
 
 ## Tests
-
 Run `./vendor/bin/phpunit` to run tests. See [tests](tests) folder as it's quite good staring point as documentation appendix.
 
 Test details [![codecov](https://codecov.io/gh/EscolaLMS/Fakturownia-Integration/branch/main/graph/badge.svg?token=O91FHNKI6R)](https://codecov.io/gh/EscolaLMS/Fakturownia-Integration) [![Tests PHPUnit in environments](https://github.com/EscolaLMS/Fakturownia-Integration/actions/workflows/test.yml/badge.svg)](https://github.com/EscolaLMS/Fakturownia-Integration/actions/workflows/test.yml)
 
 ## Events
-
 This package does not dispatch any events.
 
 ## Listeners
-
 - ImportInvoiceListener catch `EscolaLms\Cart\Events\OrderPaid` => add invoice to Fakturownia
 
-## How to use this on frontend.
-
-### Admin panel
-
-...
-
-### Front Application
-
-...
-
 ## Permissions
-
-- <a href="https://i.imgur.com/AoXsisJ.png">`view`</a> from `escolalms/cart` to get invoice pdf
+The package uses the `cart_order_list` permission from the [Cart](https://github.com/EscolaLMS/Cart) package.
+All permissions are defined in Cart package [seeder](https://github.com/EscolaLMS/Cart/blob/main/src/Enums/CartPermissionsEnum.php)
