@@ -9,7 +9,7 @@ In the admin panel you can configure the connection to the Fakturownia API.
 
 # Front app documentation
 
-To view invoices, access your user profile and go to the "My Ordes" section.
+To view invoices, access your user profile and go to the "My Orders" section.
 
 ![Fakturownia-Integration - My orders](https://github.com/EscolaLMS/Fakturownia-Integration/assets/59400506/d1067ecf-0615-4812-b1fe-761b21f46380)
 
