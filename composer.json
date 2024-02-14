@@ -3,10 +3,10 @@
   "description": "Escola Headless LMS Fakturownia Integration",
   "type": "package",
   "require": {
-    "php": "^7.4|^8.0",
+    "php": ">=7.4",
     "escolalms/core": "^1.2.2",
     "escolalms/cart": "^0.4",
-    "laravel/framework": "^8|^9",
+    "laravel/framework": ">=8.0",
     "abb/fakturownia": "^1.6"
   },
   "require-dev": {
